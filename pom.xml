@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github</groupId>
-	<artifactId>write-back-example</artifactId>
-	<name>write-back-example</name>
+	<artifactId>corepository-example</artifactId>
+	<name>corepository-example</name>
 	<version>0.1</version>
 
 	<repositories>
@@ -26,8 +26,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github</groupId>
-			<artifactId>write-back</artifactId>
-			<version>0.1</version>
+			<artifactId>corepository</artifactId>
+			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-dbcp</groupId>
