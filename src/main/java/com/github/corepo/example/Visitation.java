@@ -24,4 +24,10 @@ public class Visitation implements Serializable {
 	public int getCount() {
 		return visitationCount;
 	}
+
+	@Override
+	public String toString() {
+		return "Visitation [name=" + name + ", visitationCount="
+				+ visitationCount + "]";
+	}
 }
