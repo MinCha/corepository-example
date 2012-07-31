@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd   
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd">
+
+	<context:property-placeholder location="classpath*:measurement.properties" />
+
+	<bean class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" id="dataSource-measurement">
+		<property name="driverClassName" value="${database.driverClassName}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+		<property name="maxActive" value="${database.maxActive}" />
+	</bean>
+	
+	<bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate-measurement">
+		<property name="dataSource" ref="dataSource-measurement" />
+	</bean>
+	
+	<bean class ="com.github.corepo.example.VisitationCountIntOriginalRepository" id = "visitationCountIntOriginalRepository"/>
+	
+	<bean class="com.github.corepo.client.CoRepositoryClient">
+		<constructor-arg index="0">
+			<bean class="com.github.corepo.client.LocalMemoryCoRepository" />
+		</constructor-arg>
+		<constructor-arg index="1" ref ="visitationCountIntOriginalRepository" />
+		<constructor-arg index="2" value="10000" />
+		<qualifier value="local" />
+	</bean>
+
+	<bean class="com.github.corepo.client.CoRepositoryClient" >
+		<constructor-arg index="0">
+			<bean class="com.github.corepo.client.TTCoRepository">
+				<constructor-arg index="0" value ="${tt.ip}" />
+				<constructor-arg index="1" value="${tt.port}" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="1" ref="visitationCountIntOriginalRepository" />
+		<constructor-arg index="2" value="10000" />
+		<qualifier value="tt" />
+	</bean>
+
+	<bean class="com.github.corepo.client.CoRepositoryClient" >
+		<constructor-arg index="0">
+			<bean class="com.github.corepo.client.RedisCoRepository">
+				<constructor-arg index="0" value ="${redis.ip}" />
+				<constructor-arg index="1" value="${redis.port}" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="1" ref="visitationCountIntOriginalRepository" />
+		<constructor-arg index="2" value="10000" />
+		<qualifier value="redis" />
+	</bean>
+</beans>	
