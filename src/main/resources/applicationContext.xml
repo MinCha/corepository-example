@@ -35,6 +35,19 @@
 		<constructor-arg index="2" value="3000" />
 	</bean>
 
+	<!--  If you want to test with TT, use this. -->
+	<!--
+	<bean class="com.github.corepo.client.CoRepositoryClient" >
+		<constructor-arg index="0">
+			<bean class="com.github.corepo.client.TTCoRepository">
+				<constructor-arg index="0" value ="10.64.144.118" />
+				<constructor-arg index="1" value="1978" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="1" ref="visiationCountOriginalRepository" />
+		<constructor-arg index="2" value="3000" />
+	</bean>
+	 -->
 	<bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
