@@ -1,5 +1,8 @@
 package com.github.corepo.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,8 @@ import com.github.corepo.client.OriginalRepository;
 
 @Repository
 public class VisiationCountOriginalRepository implements OriginalRepository {
-	private static final Log LOG = LogFactory.getLog(VisiationCountOriginalRepository.class);
+	private static final Log LOG = LogFactory
+			.getLog(VisiationCountOriginalRepository.class);
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
@@ -28,10 +32,21 @@ public class VisiationCountOriginalRepository implements OriginalRepository {
 	}
 
 	public void writeback(Item item) {
-		LOG.info("Write-Back : " + item);
-		Visitation visitation = (Visitation) item.getValue();
-		jdbcTemplate.update(
+	}
+
+	@Override
+	public void writeback(List<Item> items) {
+		List<Object[]> parameters = new ArrayList<Object[]>();
+
+		for (Item each : items) {
+			Visitation visitation = (Visitation) each.getValue();
+			parameters.add(new Object[] { visitation.getCount(),
+					visitation.getName() });
+		}
+
+		LOG.info("Write-Back " + parameters.size());
+		jdbcTemplate.batchUpdate(
 				"UPDATE visitation SET visitationCount = ? WHERE name = ?",
-				visitation.getCount(), item.getKey());
+				parameters);
 	}
 }

@@ -88,7 +88,6 @@ public class DBVsCoRepository {
 	}
 
 	private class DBCallable implements Callable<Boolean> {
-		@Override
 		public Boolean call() throws Exception {
 			for (int j = 0; j < callCount; j++) {
 				try {
@@ -114,7 +113,6 @@ public class DBVsCoRepository {
 			this.client = client;
 		}
 
-		@Override
 		public Boolean call() throws Exception {
 			for (int j = 0; j < callCount; j++) {
 				try {
